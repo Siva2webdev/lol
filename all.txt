@@ -1,0 +1,1478 @@
+import pip
+import re
+import time
+import os
+import sys
+import subprocess
+import datetime
+import platform
+import hashlib
+
+version: str = "V1.8"
+NOME = 'Check M3U or MAC ' + version
+if sys.platform.startswith('win'):
+    import ctypes
+
+    ctypes.windll.kernel32.SetConsoleTitleW(NOME)
+else:
+    sys.stdout.write(f''']2;{NOME}''')
+
+if sys.platform.startswith('win'):
+    rootdir: str = "./sdcard/"
+else:
+    rootdir: str = "/sdcard/"
+save_folder: str = rootdir + "Hits/👺FAWX✬M3U✬MAC✬CHECKER🤴/"
+os.makedirs(rootdir, exist_ok=True)
+os.makedirs(save_folder, exist_ok=True)
+import logging
+
+# Install Routine für fehlende Module
+def install(package):
+    subprocess.check_call([sys.executable, "-m", "pip", "install", package])
+
+
+
+
+try:
+    import requests
+except ImportError:
+    logging.info("requests modul is not installed \n install module request ... \n")
+    install("requests")
+    import requests
+
+try:
+    import sock
+except ImportError:
+    logging.info("sock modul is not installed \n install module sock ... \n")
+    install("requests[socks]")
+    install("sock")
+    install("PySocks")
+    import sock
+try:
+    import cfscrape
+
+    sesq = requests.Session()
+    ses = cfscrape.create_scraper(sess=sesq)
+except ImportError:
+    ses = requests.Session()
+logging.captureWarnings(True)
+
+try:
+    import flag
+except ImportError:
+    logging.info("flag modul is not installed \n install module flag ... \n")
+    install("flag")
+    import flag
+
+from urllib.parse import urlparse, parse_qs
+from requests.sessions import Session
+import urllib.parse
+
+from requests.packages.urllib3.exceptions import InsecureRequestWarning
+intro = ("""\n\33[38;5;229m         👺FAWX✬M3U✬MAC✬CHECKER🤴     \33[0m\33[92m
+
+        █▀▀ ▄▀█ █░█░█ █▄▀ █▀▀ █▀    
+        █▀░ █▀█ ▀▄▀▄▀ █░█ ██▄ ▄█                                                   
+\033[38;5;94m                ╔══╗
+\033[38;5;229m                ╚╗╔╝
+\033[38;5;94m                ╔╝\33[38;5;160m(¯`v´¯)    \33[0m
+\033[38;5;229m                ╚══\33[38;5;160m\33[0m\33[38;5;229m👺𝙵𝙰𝚆𝙺𝙴𝚂    \33[0m 
+\n\33[38;5;229m        PY SCRIPT MODDED BY 👺FAWX🤴\33[0m
+\n\33[92m               Save folder ☟\n\n     /Hits/👺FAWX✬M3U✬MAC✬CHECKER🤴/     
+\n   Directories are created automatically \n""")
+
+requests.packages.urllib3.util.ssl_.DEFAULT_CIPHERS = ("TLS_AES_128_GCM_SHA256:TLS_CHACHA20_POLY1305_SHA256"
+                                                       ":TLS_AES_256_GCM_SHA384"
+                                                       ":TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256"
+                                                       ":TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256"
+                                                       ":TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305_SHA256"
+                                                       ":TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_SHA256"
+                                                       ":TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384"
+                                                       ":TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384"
+                                                       ":TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA"
+                                                       ":TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA"
+                                                       ":TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA"
+                                                       ":TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA"
+                                                       ":TLS_RSA_WITH_AES_128_GCM_SHA256"
+                                                       ":TLS_RSA_WITH_AES_256_GCM_SHA384:TLS_RSA_WITH_AES_128_CBC_SHA"
+                                                       ":TLS_RSA_WITH_AES_256_CBC_SHA:TLS_RSA_WITH_3DES_EDE_CBC_SHA"
+                                                       ":TLS13-CHACHA20-POLY1305-SHA256:TLS13-AES-128-GCM-SHA256"
+                                                       ":TLS13-AES-256-GCM-SHA384:ECDHE:!COMP:TLS13-AES-256-GCM"
+                                                       "-SHA384:TLS13-CHACHA20-POLY1305-SHA256:TLS13-AES-128-GCM-SHA256")
+
+HEADERd = {
+    "Cookie": "stb_lang=en; timezone=Europe%2FIstanbul;",
+    "X-User-Agent": "Model: MAG254; Link: Ethernet",
+    "Connection": "Keep-Alive",
+    "Accept-Encoding": "gzip, deflate",
+    "Accept": "application/json,application/javascript,text/javascript,text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+    "User-Agent": 'VLC',
+}
+
+
+# Definition Header 1. Portal-Anfrage
+def hea1(panel_mac):
+    global panel_url
+    HEADERA = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.51 Safari/537.36',
+        "Referer": "http://" + panel_url + "/c/",
+        "Accept": "application/json,application/javascript,text/javascript,text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+        "Cookie": "mac=" + panel_mac + "; stb_lang=en; timezone=Europe/Paris;",
+        "Accept-Encoding": "gzip, deflate",
+        "Connection": "Keep-Alive",
+        "X-User-Agent": "Model: MAG254; Link: Ethernet",
+    }
+    return HEADERA
+
+
+# Definition Header 2. Portal Anfrage mit Token
+def hea2(panel_mac, token):
+    global panel_url, portal_idx
+    HEADERd = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.51 Safari/537.36',
+        "Referer": "http://" + panel_url + "/c/",
+        "Accept": "application/json,application/javascript,text/javascript,text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+        "Cookie": "mac=" + panel_mac + "; stb_lang=en; timezone=Europe/Paris;",
+        "Accept-Encoding": "gzip, deflate",
+        "Connection": "Keep-Alive",
+        "X-User-Agent": "Model: MAG254; Link: Ethernet",
+        "Authorization": "Bearer " + token,
+    }
+    if portal_idx == "stalker_portal/server/load.php":
+        HEADERd = {
+            "User-Agent": "Mozilla/5.0 (QtEmbedded; U; Linux; C) AppleWebKit/533.3 (KHTML, like Gecko) MAG200 stbapp ver: 2 rev: 250 Safari/533.3",
+            "Referer": "http://" + panel_url + "/stalker_portal/c/",
+            "Accept": "application/json,application/javascript,text/javascript,text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+            "Cookie": "mac=" + panel_mac + "; stb_lang=en; timezone=Europe%2FParis;",
+            "Accept-Encoding": "gzip, deflate",
+            "Connection": "Keep-Alive",
+            "X-User-Agent": "Model: MAG254; Link: Ethernet",
+            "Authorization": "Bearer " + token,
+        }
+    return HEADERd
+
+
+requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
+
+
+def clear_scr():
+    os.system('cls' if os.name == 'nt' else 'clear')
+
+
+mcounter: int = 0
+acon: str = ""
+mcon: str = ""
+status: str = ""
+message: str = ""
+http_port: str = ""
+https_port: str = ""
+rtmp_port: str = ""
+output_var: str = ""
+kategori: str = ""
+codpais: str = ""
+bandera: str = ""
+origen: str = ''
+country_name: str = ""
+scountry: str = ""
+sip: str = ""
+sname: str = ""
+realm: str = ""
+live_count: str = ""
+film_count: str = ""
+series_count: str = ""
+channel_list: str = ""
+playlist_link: str = ""
+#panel_url: str = ""
+panel_mac = ""
+veri: str = ""
+listlink: str = ""
+
+bag: int = 0
+channel_cat = 2
+panel_input_mac: str = ""
+imza: str = ""
+portal_typ: str = ""
+random: str = ""
+
+
+def data_server(scountry):
+    try:
+        codpais = scountry
+        return flag.flag(codpais)
+    except Exception:
+        return ''
+
+
+def is_valid_mac_address(mac_address):
+    pattern = re.compile(r'^([0-9A-Fa-f]{2}[:]){5}([0-9A-Fa-f]{2})$')
+    return pattern.match(mac_address) is not None
+
+# Definition Hitausgabe für Datei
+def hit(panel_input_mac, trh, real, m3ulink, p_message, vpn, livelist, vodlist, serieslist, playerapi, portal_idx, live_count, film_count, series_count, SNENC, SNCUT, DEVENC, SINGENC):
+    global imza, panel_url, sip, sname, country_name, scountry, ip
+    try:
+        imza = """
+╭─────── 👺FAWX🤴 ──────── 
+├── ✬M3U✬MAC✬CHECKER✬ ─── 
+├● Real  ➨ """ + str(real) + """
+├● Panel ➨ http://""" + str(panel_url) + """/c/
+├● Mac ➨ """ + str(panel_input_mac) + """
+├● Ends ➨ """ + str(trh) + """
+├● Image ➨ """ + str(p_message) + """
+├● Vpn ➨ """ + str(vpn) + """ | """ + str(ip) + """
+╰─● m3uLink ➨ """ + str(m3ulink) + """
+╭─── 𝐒𝐞𝐫𝐯𝐞𝐫 𝐈𝐧𝐟𝐨 ─────────────
+├●𝐂𝐨𝐮𝐧𝐭𝐫𝐲 ➩ """ + data_server(str(scountry)) + """ """ + str(country_name) + """ ✮ """ + str(scountry) + """
+├●𝐒𝐞𝐫𝐯𝐞𝐫 𝐈𝐏 ➩ """ + str(sip) + """
+├●𝐒𝐞𝐫𝐯𝐞𝐫 𝐍𝐚𝐦𝐞 ➩ """ + str(sname) + """
+╰────────────────────────
+╭─── 𝐌𝐞𝐝𝐢𝐚 𝐈𝐧𝐟𝐨 ─────────────
+├●𝐋𝐢𝐯𝐞 ➩ """ + str(live_count.replace('"', '')) + """
+├●𝐕𝐨𝐝 ➩ """ + str(film_count.replace('"', '')) + """
+├●𝐒𝐞𝐫𝐢𝐞𝐬 ➩ """ + str(series_count.replace('"', '')) + """
+├●sɴ: """+SNENC+"""
+├●sɴᴄᴜᴛ: """+SNCUT+"""
+├●ᴅᴇᴠɪᴄᴇ ɪᴅ𝟷:
+├● """+DEVENC+"""
+├●ᴅᴇᴠɪᴄᴇ ɪᴅ𝟸:
+├● """+SINGENC+"""
+╰────────────────────────
+╭─── 𝐒𝐜𝐚𝐧 𝐈𝐧𝐟𝐨 ──────────────  
+├● Panel Type ➨ [""" + portal_idx + """]
+╰────────────────────────  """
+
+        imza = imza + """
+╭─●🅻🅸🆅🅴 🅻🅸🆂🆃
+╰─➨  """ + str(livelist) + """ """
+
+        imza = imza + """
+╭─●🆅🅾🅳 🅻🅸🆂🆃
+╰─➨  """ + str(vodlist) + """
+╭─●🆂🅴🆁🅸🅴🆂 🅻🅸🆂🆃
+╰─➨  """ + str(serieslist) + """    
+
+"""
+        print(imza)
+        netloc = panel_url
+        # Replace the ':' character with '_'
+        split_netloc = netloc.replace(':', '_')
+        save_file_mac_result = split_netloc + '{👺}FAWX✬MAC✬CHECK{🤴}.txt'
+        hit_file = save_folder + save_file_mac_result
+        save_result = input('\33[1;92mDo you want to save the result? (y/[n]) ').lower()
+        if save_result == 'y':
+            with open(hit_file, 'a+', encoding='utf-8') as f:
+                f.write(imza)
+                f.close()
+                print(f'\33[1;92m *** data saved ***\nin {save_folder}{save_file_mac_result}')
+                input('\33[0mpress Enter to continue')
+        else:
+            print('\33[33mNot saving result.\33[0m')
+    except:
+        pass
+
+
+# Abfrage Nutzung VPN des Hits
+def goruntu(link):
+    global duru
+    hea3 = {
+        "Icy-MetaData": "1",
+        "User-Agent": "Lavf/57.83.100",
+        "Accept-Encoding": "identity",
+        "Host": panel_url,
+        "Accept": "*/*",
+        "Range": "bytes=0-",
+        "Connection": "close",
+    }
+    try:
+        ses = requests.Session()
+        res = ses.get(link, headers=hea3, timeout=3, allow_redirects=False, stream=True)
+        duru = "𝐔𝐒𝐄 𝐕𝐏𝐍"
+        if res.status_code == 302:
+            duru = "🎯"
+    except:
+        duru = "𝐔𝐒𝐄 𝐕𝐏𝐍"
+    return duru
+
+def vpnip(ip):
+    url9="https://freegeoip.app/json/"+ip
+    try:
+        res = ses.get(url9,  timeout=7, verify=False)
+        veri=str(res.text)
+        if not '404 page' in veri:
+            vpnips=veri.split('"country_name":"')[1]
+            vpnc=veri.split('"city":"')[1].split('"')[0]
+            vpn=vpnips.split('"')[0]+'/' + vpnc
+        else:
+            vpn="𝐍𝐎 "
+    except:
+        vpn="𝐍𝐎 "
+    return vpn
+
+def m3u_check():
+    global country_name, scountry, sip, sname, live_count, film_count, series_count, kategori, save_folder, vkategori, skategori
+    print(intro)
+    while True:
+        playlist_link = input('\33[1;92m Input M3U-Link: \33[1;92m')
+        print('\33[33msearch information ...\33[0m')
+        try:
+            ses = requests.Session()
+            res = ses.get(playlist_link, timeout=15, verify=False)
+            if res.status_code == 200:
+                parsed_link = urlparse(playlist_link)
+                # Extract the netloc attribute
+                netloc = parsed_link.netloc
+                # Replace the ':' character with '_'
+                split_netloc = netloc.replace(':', '_')
+                save_file_m3u_result = split_netloc + '{👺}FAWX✬M3U✬CHECK{🤴}.txt.txt'
+                # Extract the scheme and netloc attributes (domain and port)
+                domain_port = parsed_link.scheme + '://' + parsed_link.netloc
+                # Add a default port number if it's not already present
+                if parsed_link.port is None:
+                    if parsed_link.scheme == 'http':
+                        domain_port += ':80'
+                    elif parsed_link.scheme == 'https':
+                        domain_port += ':443'
+                query_params = parse_qs(parsed_link.query)
+                host = parsed_link.hostname
+                user = query_params['username'][0]
+                pas = query_params['password'][0]
+                link = f"{domain_port}/player_api.php?username={user}&password={pas}&type=m3u"
+                channel_link = f"{domain_port}/player_api.php?username={user}&password={pas}&action=get_live_categories"
+                vod_link = f"{domain_port}/player_api.php?username={user}&password={pas}&action=get_vod_categories"
+                series_link = f"{domain_port}/player_api.php?username={user}&password={pas}&action=get_series_categories"
+                ses = requests.Session()
+                res = ses.get(link, headers=HEADERd, timeout=3, verify=False)
+                content = str(res.text)
+                if 'username' in content:
+                    status = content.split('status":')[1]
+                    status = status.split(',')[0]
+                    status = status.replace('"', "")
+                    if status == 'Active':
+                        print('\n         \33[1;42m     *** ACTIVE ***     \33[0m')
+                else:
+                    print('\n         \33[1;41m     *** NOT ACTIVE ***     \33[0m')
+                    quit()
+                status = status.replace("Active", "𝐀𝐂𝐓𝐈𝐕𝐄💚")
+                realm = content.split('url":')[1]
+                realm = realm.split(',')[0]
+                realm = "http://" + realm.replace('"', "")
+                acon = content.split('active_cons":')[1]
+                acon = acon.split(',')[0]
+                acon = acon.replace('"', "")
+                mcon = content.split('max_connections":')[1]
+                mcon = mcon.split(',')[0]
+                mcon = mcon.replace('"', "")
+                http_port = content.split('port":')[1]
+                http_port = http_port.split(',')[0]
+                http_port = http_port.replace('"', "")
+                https_port = content.split('https_port":')[1]
+                https_port = https_port.split(',')[0]
+                https_port = https_port.replace('"', "")
+                rtmp_port = content.split('rtmp_port":')[1]
+                rtmp_port = rtmp_port.split(',')[0]
+                rtmp_port = rtmp_port.replace('"', "")
+                output_var = content.split('allowed_output_formats":')[1]
+                output_var = output_var.split('}')[0]
+                output_var = output_var.replace('"', "")
+                trial = content.split('is_trial":')[1]
+                trial = trial.split(',')[0]
+                trial = trial.replace('"', '')
+                trial = trial.replace("0", " 𝐍𝐨")
+                trial = trial.replace("1", "𝐘𝐞𝐬")
+                created = content.split('created_at":')[1]
+                created = created.split(',')[0]
+                created = created.replace('"', "")
+                bitis = content.split('exp_date":')[1]
+                bitis = bitis.split(',')[0]
+                bitis = bitis.replace('"', "")
+                if bitis == "null":
+                    bitis = "ᴜɴʟɪᴍɪᴛᴇᴅ"
+                else:
+                    bitis = (datetime.datetime.fromtimestamp(int(bitis)).strftime('%d %B %Y %H:%M'))
+                bitis = bitis
+                if created == "null":
+                    created = "ᴜɴʟɪᴍɪᴛᴇᴅ"
+                else:
+                    created = (datetime.datetime.fromtimestamp(int(created)).strftime('%d %B %Y %H:%M'))
+                created = created
+                message = content.split('message":"')[1].split(',')[0].replace('"', '')
+                message = str(message.encode('utf-8').decode("unicode-escape")).replace('\/', '/')
+                if message == "":
+                    message = "Iᴘᴛᴠ Fᴏʀ Fʀᴇᴇ!"
+                timezone = re.findall(r'timezone":"([^"]+)', content)[0]
+                timezone = timezone.replace('\\/', '/')
+                timezone_map = {
+                    'UTC': 'UTC 🏳️‍🌈',
+                    'Europe/Andorra': 'Europe/Andorra 🇦🇩',
+                    'Asia/Dubai': 'Asia/Dubai 🇦🇪 United Arab Emirates',
+                    'Asia/Kabul': 'Asia/Kabul 🇦🇫 Afghanistan',
+                    'America/Antigua': 'America/Antigua and Barbuda 🇦🇬',
+                    'America/Anguilla': 'America/Anguilla 🇦🇮',
+                    'Europe/Tirane': 'Europe/Tirane 🇦🇱 Albania',
+                    'Asia/Yerevan': 'Asia/Yerevan 🇦🇲 Armenia',
+                    'Africa/Luanda': 'Africa/Luanda 🇦🇴 Angola',
+                    'Antarctica/McMurdo': 'Antarctica/McMurdo 🇦🇶',
+                    'Antarctica/South_Pole': 'Antarctica/South Pole 🇦🇶',
+                    'Antarctica/Rothera': 'Antarctica/Rothera 🇦🇶',
+                    'Antarctica/Palmer': 'Antarctica/Palmer 🇦🇶',
+                    'Antarctica/Mawson': 'Antarctica/Mawson 🇦🇶',
+                    'Antarctica/Davis': 'Antarctica/Davis 🇦🇶',
+                    'Antarctica/Casey': 'Antarctica/Casey 🇦🇶',
+                    'Antarctica/Vostok': 'Antarctica/Vostok 🇦🇶',
+                    'Antarctica/DumontDUrville': 'Antarctica/DumontDUrville 🇦🇶',
+                    'Antarctica/Syowa': 'Antarctica/Syowa 🇦🇶',
+                    'Antarctica/Macquarie': 'Antarctica/Macquarie 🇦🇶',
+                    'America/Argentina/Buenos_Aires': 'America/Buenos Aires 🇦🇷 Argentina',
+                    'America/Argentina/Cordoba': 'America/Cordoba 🇦🇷 Argentina',
+                    'America/Argentina/Salta': 'America/Salta 🇦🇷 Argentina',
+                    'America/Argentina/Jujuy': 'America/Jujuy 🇦🇷 Argentina',
+                    'America/Argentina/Tucuman': 'America/Tucuman 🇦🇷 Argentina',
+                    'America/Argentina/Catamarca': 'America/Catamarca 🇦🇷 Argentina',
+                    'America/Argentina/La_Rioja': 'America/La Rioja 🇦🇷 Argentina',
+                    'America/Argentina/San_Juan': 'America/San Juan 🇦🇷 Argentina',
+                    'America/Argentina/Mendoza': 'America/Mendoza 🇦🇷 Argentina',
+                    'America/Argentina/San_Luis': 'America/San Luis 🇦🇷 Argentina',
+                    'America/Argentina/Rio_Gallegos': 'America/Rio Gallegos 🇦🇷 Argentina',
+                    'America/Argentina/Ushuaia': 'America/Ushuaia 🇦🇷 Argentina',
+                    'Pacific/Pago_Pago': 'Pacific/Pago Pago 🇦🇸 American Samoa',
+                    'Europe/Vienna': 'Europe/Vienna 🇦🇹 Austria',
+                    'Australia/Lord_Howe': 'Australia/Lord Howe 🇦🇺 Australia',
+                    'Australia/Hobart': 'Australia/Hobart 🇦🇺 Australia',
+                    'Australia/Currie': 'Australia/Currie 🇦🇺 Australia',
+                    'Australia/Melbourne': 'Australia/Melbourne 🇦🇺 Australia',
+                    'Australia/Sydney': 'Australia/Sydney 🇦🇺 Australia',
+                    'Australia/Broken_Hill': 'Australia/Broken Hill 🇦🇺 Australia',
+                    'Australia/Brisbane': 'Australia/Brisbane 🇦🇺 Australia',
+                    'Australia/Lindeman': 'Australia/Lindeman 🇦🇺 Australia',
+                    'Australia/Adelaide': 'Australia/Adelaide 🇦🇺 Australia',
+                    'Australia/Darwin': 'Australia/Darwin 🇦🇺 Australia',
+                    'Australia/Perth': 'Australia/Perth 🇦🇺 Australia',
+                    'Australia/Eucla': 'Australia/Eucla 🇦🇺 Australia',
+                    'America/Aruba': 'America/Aruba 🇦🇼',
+                    'Europe/Mariehamn': 'Europe/Mariehamn 🇦🇽 Åland Islands',
+                    'Asia/Baku': 'Asia/Baku 🇦🇿 Azerbaijan',
+                    'Europe/Sarajevo': 'Europe/Sarajevo 🇧🇦 Bosnia and Herzegovina',
+                    'America/Barbados': 'America/Barbados 🇧🇧',
+                    'Asia/Dhaka': 'Asia/Dhaka 🇧🇩 Bangladesh',
+                    'Europe/Brussels': 'Europe/Brussels 🇧🇪 Belgium',
+                    'Africa/Ouagadougou': 'Africa/Ouagadougou 🇧🇫 Burkina Faso',
+                    'Europe/Sofia': 'Europe/Sofia 🇧🇬 Bulgaria',
+                    'Asia/Bahrain': 'Asia/Bahrain 🇧🇾',
+                    'Africa/Bujumbura': 'Africa/Bujumbura 🇧🇮 Burundi',
+                    'Africa/Porto': 'Africa/Porto-Novo 🇧🇯 Benin',
+                    'America/St_Barthelemy': 'America/Saint Barthélemy 🇧🇱',
+                    'Atlantic/Bermuda': 'Atlantic/Bermuda 🇧🇲',
+                    'Asia/Brunei': 'Asia/Brunei 🇧🇳',
+                    'America/La_Paz': 'America/La Paz 🇧🇴 Bolivia',
+                    'America/Kralendijk': 'America/Kralendijk 🇧🇶 Bonaire',
+                    'America/Noronha': 'America/Noronha 🇧🇷 Brazil',
+                    'America/Belem': 'America/Belém 🇧🇷 Brazil',
+                    'America/Fortaleza': 'America/Fortaleza 🇧🇷 Brazil',
+                    'America/Recife': 'America/Recife 🇧🇷 Brazil',
+                    'America/Araguaina': 'America/Araguaína 🇧🇷 Brazil',
+                    'America/Maceio': 'America/Maceió 🇧🇷 Brazil',
+                    'America/Bahia': 'America/Bahia 🇧🇷 Brazil',
+                    'America/Sao_Paulo': 'America/São Paulo 🇧🇷 Brazil',
+                    'America/Campo_Grande': 'America/Campo Grande 🇧🇷 Brazil',
+                    'America/Cuiaba': 'America/Cuiabá 🇧🇷 Brazil',
+                    'America/Santarem': 'America/Santarém 🇧🇷 Brazil',
+                    'America/Porto_Velho': 'America/Porto Velho 🇧🇷 Brazil',
+                    'America/Boa_Vista': 'America/Boa Vista 🇧🇷 Brazil',
+                    'America/Manaus': 'America/Manaus 🇧🇷 Brazil',
+                    'America/Eirunepe': 'America/Eirunepé 🇧🇷 Brazil',
+                    'America/Rio_Branco': 'America/Rio Branco 🇧🇷 Brazil',
+                    'America/Nassau': 'America/Nassau 🇧🇸 Bahamas',
+                    'Asia/Thimphu': 'Asia/Thimphu 🇧🇹 Bhutan',
+                    'Africa/Gaborone': 'Africa/Gaborone 🇧🇼 Botswana',
+                    'Europe/Minsk': 'Europe/Minsk 🇧🇾 Belarus',
+                    'America/Belize': 'America/Belize 🇧🇿',
+                    'America/St_Johns': 'America/Saint Johns 🇦🇬 Antigua and Barbuda',
+                    'America/Halifax': 'America/Halifax 🇨🇦 Canada',
+                    'America/Glace_Bay': 'America/Glace Bay 🇨🇦 Canada',
+                    'America/Moncton': 'America/Moncton 🇨🇦 Canada',
+                    'America/Goose_Bay': 'America/Goose Bay 🇨🇦 Canada',
+                    'America/Blanc': 'America/Blanc 🇨🇦 Canada',
+                    'America/Montreal': 'America/Montreal 🇨🇦 Canada',
+                    'America/Toronto': 'America/Toronto 🇨🇦 Canada',
+                    'America/Nipigon': 'America/Nipigon 🇨🇦 Canada',
+                    'America/Thunder_Bay': 'America/Thunder Bay 🇨🇦 Canada',
+                    'America/Iqaluit': 'America/Iqaluit 🇨🇦 Canada',
+                    'America/Pangnirtung': 'America/Pangnirtung 🇨🇦 Canada',
+                    'America/Resolute': 'America/Resolute 🇨🇦 Canada',
+                    'America/Atikokan': 'America/Atikokan 🇨🇦 Canada',
+                    'America/Rankin_Inlet': 'America/Rankin Inlet 🇨🇦 Canada',
+                    'America/Winnipeg': 'America/Winnipeg 🇨🇦 Canada',
+                    'America/Rainy_River': 'America/Rainy River 🇨🇦 Canada',
+                    'America/Regina': 'America/Regina 🇨🇦 Canada',
+                    'America/Swift_Current': 'America/Swift Current 🇨🇦 Canada',
+                    'America/Edmonton': 'America/Edmonton 🇨🇦 Canada',
+                    'America/Cambridge_Bay': 'America/Cambridge Bay 🇨🇦 Canada',
+                    'America/Yellowknife': 'America/Yellowknife 🇨🇦 Canada',
+                    'America/Inuvik': 'America/Inuvik 🇨🇦 Canada',
+                    'America/Creston': 'America/Creston 🇨🇦 Canada',
+                    'America/Dawson_Creek': 'America/Dawson Creek 🇨🇦 Canada',
+                    'America/Vancouver': 'America/Vancouver 🇨🇦 Canada',
+                    'America/Whitehorse': 'America/Whitehorse 🇨🇦 Canada',
+                    'America/Dawson': 'America/Dawson 🇨🇦 Canada',
+                    'Indian/Cocos': 'Indian/Cocos Islands 🇨🇨',
+                    'Africa/Kinshasa': 'Africa/Kinshasa 🇨🇩 Democratic Republic of the Congo',
+                    'Africa/Lubumbashi': 'Africa/Lubumbashi 🇨🇩 Democratic Republic of the Congo',
+                    'Africa/Brazzaville': 'Africa/Brazzaville 🇨🇩 Democratic Republic of the Congo',
+                    'Africa/Bangui': 'Africa/Bangui 🇨🇫 Central African Republic',
+                    'Europe/Zurich': 'Europe/Zurich 🇨🇭 Switzerland',
+                    'Africa/Abidjan': 'Africa/Abidjan 🇨🇮 Côte d Ivoire',
+                    'Pacific/Rarotonga': 'Pacific/Rarotonga 🇨🇰 Cook Islands',
+                    'America/Santiago': 'America/Santiago 🇨🇱 Chile',
+                    'Pacific/Easter': 'Pacific/Easter Island 🇨🇱 Chile',
+                    'Africa/Douala': 'Africa/Douala 🇨🇲 Cameroon',
+                    'Asia/Shanghai': 'Asia/Shanghai 🇨🇳 China',
+                    'Asia/Harbin': 'Asia/Harbin 🇨🇳 China',
+                    'Asia/Chongqing': 'Asia/Chongqing 🇨🇳 China',
+                    'Asia/Urumqi': 'Asia/Urumqi 🇨🇳 China',
+                    'Asia/Kashgar': 'Asia/Kashgar 🇨🇳 China',
+                    'America/Bogota': 'America/Bogota 🇨🇴 Colombia',
+                    'America/Costa_Rica': 'America/Costa Rica 🇨🇷',
+                    'America/Havana': 'America/Havana 🇨🇺 Cuba',
+                    'Atlantic/Cape_Verde': 'Atlantic/Cape Verde 🇨🇻',
+                    'America/Curacao': 'America/Curacao 🇨🇼',
+                    'Indian/Christmas': 'Indian/Christmas Island 🇨🇽',
+                    'Asia/Nicosia': 'Asia/Nicosia 🇨🇾 Cyprus',
+                    'Europe/Prague': 'Europe/Prague 🇨🇿 Czech Republic',
+                    'Europe/Berlin': 'Europe/Berlin 🇩🇪 Germany',
+                    'Africa/Djibouti': 'Africa/Djibouti 🇩🇯',
+                    'Europe/Copenhagen': 'Europe/Copenhagen 🇩🇰 Denmark',
+                    'America/Dominica': 'America/Dominica 🇩🇲',
+                    'America/Santo_Domingo': 'America/Santo Domingo 🇩🇴 Dominican Republic',
+                    'Africa/Algiers': 'Africa/Algiers 🇩🇿 Algeria',
+                    'America/Guayaquil': 'America/Guayaquil 🇪🇨 Ecuador',
+                    'Pacific/Galapagos': 'Pacific/Galápagos Islands 🇪🇨 Ecuador',
+                    'Europe/Tallinn': 'Europe/Tallinn 🇪🇪 Estonia',
+                    'Africa/Cairo': 'Africa/Cairo 🇪🇬 Egypt',
+                    'Africa/El_Aaiun': 'Africa/El Aaiun 🇪🇭 Western Sahara',
+                    'Africa/Asmara': 'Africa/Asmara 🇪🇷 Eritrea',
+                    'Europe/Madrid': 'Europe/Madrid 🇪🇸 Spain',
+                    'Africa/Ceuta': 'Africa/Ceuta 🇪🇸 Spain',
+                    'Atlantic/Canary': 'Atlantic/Canary Islands 🇪🇸 Spain',
+                    'Africa/Addis_Ababa': 'Africa/Addis Ababa 🇪🇹 Ethiopia',
+                    'Europe/Helsinki': 'Europe/Helsinki 🇫🇮 Finland',
+                    'Pacific/Fiji': 'Pacific/Fiji 🇫🇯',
+                    'Atlantic/Stanley': 'Atlantic/Stanley 🇫🇰 Falkland Islands',
+                    'Pacific/Chuuk': 'Pacific/Chuuk 🇫🇲 Micronesia',
+                    'Pacific/Pohnpei': 'Pacific/Pohnpei 🇫🇲 Micronesia',
+                    'Pacific/Kosrae': 'Pacific/Kosrae 🇫🇲 Micronesia',
+                    'Atlantic/Faroe': 'Atlantic/Faroe Islands 🇫🇴',
+                    'Europe/Paris': 'Europe/Paris 🇫🇷 France',
+                    'Africa/Libreville': 'Africa/Libreville 🇬🇦 Gabon',
+                    'Europe/London': 'Europe/London 🇬🇧 Great Britain',
+                    'America/Grenada': 'America/Grenada 🇬🇩',
+                    'Asia/Tbilisi': 'Asia/Tbilisi 🇬🇪 Georgia',
+                    'America/Cayenne': 'America/Cayenne 🇬🇫 French Guiana',
+                    'Europe/Guernsey': 'Europe/Guernsey 🇬🇬',
+                    'Africa/Accra': 'Africa/Accra 🇬🇭 Ghana',
+                    'Europe/Gibraltar': 'Europe/Gibraltar 🇬🇮',
+                    'America/Godthab': 'America/Godthab 🇬🇱 Greenland',
+                    'America/Danmarkshavn': 'America/Danmarkshavn 🇬🇱 Greenland',
+                    'America/Scoresbysund': 'America/Scoresbysund 🇬🇱 Greenland',
+                    'America/Thule': 'America/Thule 🇬🇱 Greenland',
+                    'Africa/Banjul': 'Africa/Banjul 🇬🇲 Gambia',
+                    'Africa/Conakry': 'Africa/Conakry 🇬🇳 Guinea',
+                    'America/Guadeloupe': 'America/Guadeloupe 🇬🇵',
+                    'Africa/Malabo': 'Africa/Malabo 🇬🇶 Equatorial Guinea',
+                    'Europe/Athens': 'Europe/Athens 🇬🇷 Greece',
+                    'Atlantic/South_Georgia': 'Atlantic/South Georgia and the South Sandwich Islands 🇬🇸',
+                    'America/Guatemala': 'America/Guatemala 🇬🇹',
+                    'Pacific/Guam': 'Pacific/Guam 🇬🇺',
+                    'Africa/Bissau': 'Africa/Bissau 🇬🇼 Guinea-Bissau',
+                    'America/Guyana': 'America/Guyana 🇬🇾',
+                    'Asia/Hong_Kong': 'Asia/Hong Kong 🇭🇰',
+                    'America/Tegucigalpa': 'America/Tegucigalpa 🇭🇳 Honduras',
+                    'Europe/Zagreb': 'Europe/Zagreb 🇭🇷 Croatia',
+                    'America/Port': 'America/Port-au-Prince 🇭🇹 Haiti',
+                    'Europe/Budapest': 'Europe/Budapest 🇭🇺 Hungary',
+                    'Asia/Jakarta': 'Asia/Jakarta 🇮🇩 Indonesia',
+                    'Asia/Pontianak': 'Asia/Pontianak 🇮🇩 Indonesia',
+                    'Asia/Makassar': 'Asia/Makassar 🇮🇩 Indonesia',
+                    'Asia/Jayapura': 'Asia/Jayapura 🇮🇩 Indonesia',
+                    'Europe/Dublin': 'Europe/Dublin 🇮🇪 Ireland',
+                    'Asia/Jerusalem': 'Asia/Jerusalem 🇮🇱 Israel',
+                    'Europe/Isle_of_Man': 'Europe/Isle of Man 🇮🇲',
+                    'Asia/Kolkata': 'Asia/Kolkata 🇮🇳 India',
+                    'Indian/Chagos': 'Indian/Chagos 🇮🇴 British Indian Ocean Territory',
+                    'Asia/Baghdad': 'Asia/Baghdad 🇮🇶 Iraq',
+                    'Asia/Tehran': 'Asia/Tehran 🇮🇷 Iran',
+                    'Atlantic/Reykjavik': 'Atlantic/Reykjavik 🇮🇸 Iceland',
+                    'Europe/Rome': 'Europe/Rome 🇮🇹 Italy',
+                    'Europe/Jersey': 'Europe/Jersey 🇯🇪',
+                    'America/Jamaica': 'America/Jamaica 🇯🇲',
+                    'Asia/Amman': 'Asia/Amman 🇯🇴 Jordan',
+                    'Asia/Tokyo': 'Asia/Tokyo 🇯🇵 Japan',
+                    'Africa/Nairobi': 'Africa/Nairobi 🇰🇪 Kenya',
+                    'Asia/Bishkek': 'Asia/Bishkek 🇰🇬 Kyrgyzstan',
+                    'Asia/Phnom_Penh': 'Asia/Phnom Penh 🇰🇭 Cambodia',
+                    'Pacific/Tarawa': 'Pacific/Tarawa 🇰🇮 Kiribati',
+                    'Pacific/Enderbury': 'Pacific/Enderbury 🇰🇮 Kiribati',
+                    'Pacific/Kiritimati': 'Pacific/Kiritimati 🇰🇮 Kiribati',
+                    'Indian/Comoro': 'Indian/Comoro Islands 🇰🇲',
+                    'America/St_Kitts': 'America/Saint Kitts and Nevis 🇰🇳',
+                    'Asia/Pyongyang': 'Asia/Pyongyang 🇰🇵 North Korea',
+                    'Asia/Seoul': 'Asia/Seoul 🇰🇷 South Korea',
+                    'Asia/Kuwait': 'Asia/Kuwait 🇰🇼',
+                    'America/Cayman': 'America/Cayman Islands 🇰🇾',
+                    'Asia/Almaty': 'Asia/Almaty 🇰🇿 Kazakhstan',
+                    'Asia/Qyzylorda': 'Asia/Qyzylorda 🇰🇿 Kazakhstan',
+                    'Asia/Aqtobe': 'Asia/Aqtobe 🇰🇿 Kazakhstan',
+                    'Asia/Aqtau': 'Asia/Aqtau 🇰🇿 Kazakhstan',
+                    'Asia/Oral': 'Asia/Oral 🇰🇿 Kazakhstan',
+                    'Asia/Vientiane': 'Asia/Vientiane 🇱🇦 Laos',
+                    'Asia/Beirut': 'Asia/Beirut 🇱🇧 Lebanon',
+                    'America/St_Lucia': 'America/Saint Lucia 🇱🇨',
+                    'Europe/Vaduz': 'Europe/Vaduz 🇱🇮 Liechtenstein',
+                    'Asia/Colombo': 'Asia/Colombo 🇱🇰 Sri Lanka',
+                    'Africa/Monrovia': 'Africa/Monrovia 🇱🇷 Liberia',
+                    'Africa/Maseru': 'Africa/Maseru 🇱🇸 Lesotho',
+                    'Europe/Vilnius': 'Europe/Vilnius 🇱🇹 Lithuania',
+                    'Europe/Luxembourg': 'Europe/Luxembourg 🇱🇺',
+                    'Europe/Riga': 'Europe/Riga 🇱🇻 Latvia',
+                    'Africa/Tripoli': 'Africa/Tripoli 🇱🇾 Libya',
+                    'Africa/Casablanca': 'Africa/Casablanca 🇲🇦 Morocco',
+                    'Europe/Monaco': 'Europe/Monaco 🇲🇨',
+                    'Europe/Chisinau': 'Europe/Chisinau 🇲🇩 Moldova',
+                    'Europe/Podgorica': 'Europe/Podgorica 🇲🇪 Montenegro',
+                    'America/Marigot': 'America/Marigot 🇲🇫 Saint Martin',
+                    'Indian/Antananarivo': 'Indian/Antananarivo 🇲🇬 Madagascar',
+                    'Pacific/Majuro': 'Pacific/Majuro 🇲🇭 Marshall Islands',
+                    'Pacific/Kwajalein': 'Pacific/Kwajalein 🇲🇭 Marshall Islands',
+                    'Europe/Skopje': 'Europe/Skopje ??🇰 North Macedonia',
+                    'Africa/Bamako': 'Africa/Bamako 🇲🇱 Mali',
+                    'Asia/Rangoon': 'Asia/Rangoon 🇲🇲 Myanmar',
+                    'Asia/Ulaanbaatar': 'Asia/Ulaanbaatar 🇲🇳 Mongolia',
+                    'Asia/Hovd': 'Asia/Hovd 🇲🇳 Mongolia',
+                    'Asia/Choibalsan': 'Asia/Choibalsan 🇲🇳 Mongolia',
+                    'Asia/Macau': 'Asia/Macau 🇲🇴',
+                    'Pacific/Saipan': 'Pacific/Saipan 🇲🇵 Northern Mariana Islands',
+                    'America/Martinique': 'America/Martinique 🇲🇶',
+                    'Africa/Nouakchott': 'Africa/Nouakchott 🇲🇷 Mauritania',
+                    'America/Montserrat': 'America/Montserrat 🇲🇸',
+                    'Europe/Malta': 'Europe/Malta 🇲🇹',
+                    'Indian/Mauritius': 'Indian/Mauritius 🇲🇺',
+                    'Indian/Maldives': 'Indian/Maldives 🇲🇻',
+                    'Africa/Blantyre': 'Africa/Blantyre 🇲🇼 Malawi',
+                    'America/Mexico_City': 'America/Mexico City 🇲🇽 Mexico',
+                    'America/Cancun': 'America/Cancun 🇲🇽 Mexico',
+                    'America/Merida': 'America/Merida 🇲🇽 Mexico',
+                    'America/Monterrey': 'America/Monterrey 🇲🇽 Mexico',
+                    'America/Matamoros': 'America/Matamoros 🇲🇽 Mexico',
+                    'America/Mazatlan': 'America/Mazatlan 🇲🇽 Mexico',
+                    'America/Chihuahua': 'America/Chihuahua 🇲🇽 Mexico',
+                    'America/Ojinaga': 'America/Ojinaga 🇲🇽 Mexico',
+                    'America/Hermosillo': 'America/Hermosillo 🇲🇽 Mexico',
+                    'America/Tijuana': 'America/Tijuana 🇲🇽 Mexico',
+                    'America/Santa_Isabel': 'America/Santa Isabel 🇲🇽 Mexico',
+                    'America/Bahia_Banderas': 'America/Bahia Banderas 🇲🇽 Mexico',
+                    'Asia/Kuala_Lumpur': 'Asia/Kuala Lumpur 🇲🇾 Malaysia',
+                    'Asia/Kuching': 'Asia/Kuching 🇲🇾 Malaysia',
+                    'Africa/Maputo': 'Africa/Maputo 🇲🇿 Mozambique',
+                    'Africa/Windhoek': 'Africa/Windhoek 🇳🇦 Namibia',
+                    'Pacific/Noumea': 'Pacific/Noumea 🇳🇨 New Caledonia',
+                    'Africa/Niamey': 'Africa/Niamey 🇳🇪 Niger',
+                    'Pacific/Norfolk': 'Pacific/Norfolk Island 🇳🇫',
+                    'Africa/Lagos': 'Africa/Lagos 🇳🇬 Nigeria',
+                    'America/Managua': 'America/Managua 🇳🇮 Nicaragua',
+                    'Europe/Amsterdam': 'Europe/Amsterdam 🇳🇱 Netherlands',
+                    'Europe/Oslo': 'Europe/Oslo 🇳🇴 Norway',
+                    'Asia/Kathmandu': 'Asia/Kathmandu 🇳🇵 Nepal',
+                    'Pacific/Nauru': 'Pacific/Nauru 🇳🇷',
+                    'Pacific/Niue': 'Pacific/Niue 🇳🇺',
+                    'Pacific/Auckland': 'Pacific/Auckland 🇳🇿 New Zealand',
+                    'Pacific/Chatham': 'Pacific/Chatham 🇳🇿 New Zealand',
+                    'Asia/Muscat': 'Asia/Muscat 🇴🇲 Oman',
+                    'America/Panama': 'America/Panama 🇵🇦',
+                    'America/Lima': 'America/Lima 🇵🇪 Peru',
+                    'Pacific/Tahiti': 'Pacific/Tahiti 🇵🇫 French Polynesia',
+                    'Pacific/Marquesas': 'Pacific/Marquesas 🇵🇫 French Polynesia',
+                    'Pacific/Gambier': 'Pacific/Gambier 🇵🇫 French Polynesia',
+                    'Pacific/Port_Moresby': 'Pacific/Port_Moresby 🇵🇬 Papua New Guinea',
+                    'Asia/Manila': 'Asia/Manila 🇵🇭 Philippines',
+                    'Asia/Karachi': 'Asia/Karachi 🇵🇰 Pakistan',
+                    'Europe/Warsaw': 'Europe/Warsaw 🇵🇱 Poland',
+                    'America/Miquelon': 'America/Saint Pierre and Miquelon 🇵🇲',
+                    'Pacific/Pitcairn': 'Pacific/Pitcairn Islands 🇵🇳',
+                    'America/Puerto_Rico': 'America/Puerto Rico 🇵🇷',
+                    'Asia/Gaza': 'Asia/Gaza 🇵🇸 Palastinian Territories',
+                    'Asia/Hebron': 'Asia/Hebron 🇵🇸 Palastinian Territories',
+                    'Europe/Lisbon': 'Europe/Lisbon 🇵🇹 Portugal',
+                    'Atlantic/Madeira': 'Atlantic/Madeira 🇵🇹 Portugal',
+                    'Atlantic/Azores': 'Atlantic/Azores 🇵🇹 Portugal',
+                    'Pacific/Palau': 'Pacific/Palau 🇵🇼',
+                    'America/Asuncion': 'America/Asuncion 🇵🇾 Paraguay',
+                    'Asia/Qatar': 'Asia/Qatar 🇶🇦',
+                    'Indian/Reunion': 'Indian/Réunion 🇷🇪',
+                    'Europe/Bucharest': 'Europe/Bucharest 🇷🇴 Romania',
+                    'Europe/Belgrade': 'Europe/Belgrade 🇷🇸 Serbia',
+                    'Europe/Kaliningrad': 'Europe/Kaliningrad 🇷🇺 Russia',
+                    'Europe/Moscow': 'Europe/Moscow 🇷🇺 Russia',
+                    'Europe/Volgograd': 'Europe/Volgograd 🇷🇺 Russia',
+                    'Europe/Samara': 'Europe/Samara 🇷🇺 Russia',
+                    'Asia/Yekaterinburg': 'Asia/Yekaterinburg 🇷🇺 Russia',
+                    'Asia/Omsk': 'Asia/Omsk 🇷🇺 Russia',
+                    'Asia/Novosibirsk': 'Asia/Novosibirsk 🇷🇺 Russia',
+                    'Asia/Novokuznetsk': 'Asia/Novokuznetsk 🇷🇺 Russia',
+                    'Asia/Krasnoyarsk': 'Asia/Krasnoyarsk 🇷🇺 Russia',
+                    'Asia/Irkutsk': 'Asia/Irkutsk 🇷🇺 Russia',
+                    'Asia/Yakutsk': 'Asia/Yakutsk 🇷🇺 Russia',
+                    'Asia/Vladivostok': 'Asia/Vladivostok 🇷🇺 Russia',
+                    'Asia/Sakhalin': 'Asia/Sakhalin 🇷🇺 Russia',
+                    'Asia/Magadan': 'Asia/Magadan 🇷🇺 Russia',
+                    'Asia/Kamchatka': 'Asia/Kamchatka 🇷🇺 Russia',
+                    'Asia/Anadyr': 'Asia/Anadyr 🇷🇺 Russia',
+                    'Africa/Kigali': 'Africa/Kigali 🇷🇼 Rwanda',
+                    'Asia/Riyadh': 'Asia/Riyadh 🇸🇦 Saudi Arabia',
+                    'Pacific/Guadalcanal': 'Pacific/Guadalcanal 🇸🇧 Solomon Islands',
+                    'Indian/Mahe': 'Indian/Mahe 🇸🇨 Seychelles',
+                    'Africa/Khartoum': 'Africa/Khartoum 🇸🇩 Sudan',
+                    'Europe/Stockholm': 'Europe/Stockholm 🇸🇪 Sweden',
+                    'Asia/Singapore': 'Asia/Singapore 🇸🇬',
+                    'Atlantic/St_Helena': 'Atlantic/Saint Helena 🇸🇭',
+                    'Europe/Ljubljana': 'Europe/Ljubljana 🇸🇮 Slovenia',
+                    'Arctic/Longyearbyen': 'Arctic/Longyearbyen 🇸🇯 Svalbard and Jan Mayen',
+                    'Europe/Bratislava': 'Europe/Bratislava 🇸🇰 Slovakia',
+                    'Africa/Freetown': 'Africa/Freetown 🇸🇱 Sierra Leone',
+                    'Europe/San_Marino': 'Europe/San Marino 🇸🇲',
+                    'Africa/Dakar': 'Africa/Dakar 🇸🇳 Senegal',
+                    'Africa/Mogadishu': 'Africa/Mogadishu 🇸🇴 Somalia',
+                    'America/Paramaribo': 'America/Paramaribo 🇸🇷 Suriname',
+                    'Africa/Juba': 'Africa/Juba 🇸🇸 South Sudan',
+                    'Africa/Sao_Tome': 'Africa/São Tomé and Príncipe 🇸🇹',
+                    'America/El_Salvador': 'America/El Salvador 🇸🇻',
+                    'America/Lower_Princes': 'America/Lower Princes 🇸🇽 Sint Maarten',
+                    'Asia/Damascus': 'Asia/Damascus 🇸🇾 Syria',
+                    'Africa/Mbabane': 'Africa/Mbabane 🇸🇿 Swaziland',
+                    'America/Grand_Turk': 'America/Grand Turk Turks and Caicos Islands 🇹🇨',
+                    'Africa/Ndjamena': 'Africa/Ndjamena 🇹🇩 Chad',
+                    'Indian/Kerguelen': 'Indian/Kerguelen 🇹🇫 French Southern Territories',
+                    'Africa/Lome': 'Africa/Lome 🇹🇬 Togo',
+                    'Asia/Bangkok': 'Asia/Bangkok 🇹🇭 Thailand',
+                    'Asia/Dushanbe': 'Asia/Dushanbe 🇹🇯 Tajikistan',
+                    'Pacific/Fakaofo': 'Pacific/Fakaofo 🇹🇰 Tokelau',
+                    'Asia/Dili': 'Asia/Dili 🇹🇱 Timor-Leste',
+                    'Asia/Ashgabat': 'Asia/Ashgabat 🇹🇲 Turkmenistan',
+                    'Africa/Tunis': 'Africa/Tunis 🇹🇳 Tunisia',
+                    'Pacific/Tongatapu': 'Pacific/Tongatapu 🇹🇴 Tonga',
+                    'Europe/Istanbul': 'Europe/Istanbul 🇹🇷 Turkey',
+                    'America/Port_of_Spain': 'America/Port of Spain 🇹🇹 Trinidad and Tobago',
+                    'Pacific/Funafuti': 'Pacific/Funafuti 🇹🇻 Tuvalu',
+                    'Asia/Taipei': 'Asia/Taipei 🇹🇼 Taiwan',
+                    'Africa/Dar_es_Salaam': 'Africa/Dar es Salaam 🇹🇿 Tanzania',
+                    'Europe/Kiev': 'Europe/Kiev 🇺🇦 Ukraine',
+                    'Europe/Uzhgorod': 'Europe/Uzhgorod 🇺🇦 Ukraine',
+                    'Europe/Zaporozhye': 'Europe/Zaporozhye 🇺🇦 Ukraine',
+                    'Europe/Simferopol': 'Europe/Simferopol 🇺🇦 Ukraine',
+                    'Africa/Kampala': 'Africa/Kampala 🇺🇬 Uganda',
+                    'Pacific/Johnston': 'Pacific/Johnston 🇺🇸 USA',
+                    'Pacific/Midway': 'Pacific/Midway 🇺🇸 USA',
+                    'Pacific/Wake': 'Pacific/Wake',
+                    'America/New_York': 'America/New York 🇺🇸 USA',
+                    'America/Detroit': 'America/Detroit 🇺🇸 USA',
+                    'America/Kentucky/Louisville': 'America/Kentucky/Louisville 🇺🇸 USA',
+                    'America/Kentucky/Monticello': 'America/Kentucky/Monticello 🇺🇸 USA',
+                    'America/Indiana/Indianapolis': 'America/Indiana/Indianapolis 🇺🇸 USA',
+                    'America/Indiana/Vincennes': 'America/Indiana/Vincennes 🇺🇸 USA',
+                    'America/Indiana/Winamac': 'America/Indiana/Winamac 🇺🇸 USA',
+                    'America/Indiana/Marengo': 'America/Indiana/Marengo 🇺🇸 USA',
+                    'America/Indiana/Petersburg': 'America/Indiana/Petersburg 🇺🇸 USA',
+                    'America/Indiana/Vevay': 'America/Indiana/Vevay 🇺🇸 USA',
+                    'America/Chicago': 'America/Chicago 🇺🇸 USA',
+                    'America/Indiana/Tell_City': 'America/Indiana/Tell City 🇺🇸 USA',
+                    'America/Indiana/Knox': 'America/Indiana/Knox 🇺🇸 USA',
+                    'America/Menominee': 'America/Menominee 🇺🇸 USA',
+                    'America/North_Dakota/Center': 'America/North Dakota/Center 🇺🇸 USA',
+                    'America/North_Dakota/New_Salem': 'America/North Dakota/New Salem 🇺🇸 USA',
+                    'America/North_Dakota/Beulah': 'America/North Dakota/Beulah 🇺🇸 USA',
+                    'America/Denver': 'America/Denver 🇺🇸 USA',
+                    'America/Boise': 'America/Boise 🇺🇸 USA',
+                    'America/Shiprock': 'America/Shiprock 🇺🇸 USA',
+                    'America/Phoenix': 'America/Phoenix 🇺🇸 USA',
+                    'America/Los_Angeles': 'America/Los Angeles 🇺🇸 USA',
+                    'America/Anchorage': 'America/Anchorage 🇺🇸 USA',
+                    'America/Juneau': 'America/Juneau 🇺🇸 USA',
+                    'America/Sitka': 'America/Sitka 🇺🇸 USA',
+                    'America/Yakutat': 'America/Yakutat 🇺🇸 USA',
+                    'America/Nome': 'America/Nome 🇺🇸 USA',
+                    'America/Adak': 'America/Adak 🇺🇸 USA',
+                    'America/Metlakatla': 'America/Metlakatla 🇺🇸 USA',
+                    'Pacific/Honolulu': 'Pacific/Honolulu 🇺🇸 USA',
+                    'America/Montevideo': 'America/Montevideo 🇺🇾 Uruguay',
+                    'Asia/Samarkand': 'Asia/Samarkand 🇺🇿 Uzbekistan',
+                    'Asia/Tashkent': 'Asia/Tashkent 🇺🇿 Uzbekistan',
+                    'Europe/Vatican': 'Europe/Vatican City State 🇻🇦',
+                    'America/St_Vincent': 'America/Saint Vincent and the Grenadines 🇻🇨',
+                    'America/Caracas': 'America/Caracas 🇻🇪 Venezuela',
+                    'America/Tortola': 'America/Tortola 🇻🇬 British Virgin Islands',
+                    'America/St_Thomas': 'America/Saint Thomas 🇻🇮 US Virgin Islands',
+                    'Asia/Ho_Chi_Minh': 'Asia/Ho Chi Minh 🇻🇳 Vietnam',
+                    'Pacific/Efate': 'Pacific/Efate 🇻🇺 Vanuatu',
+                    'Pacific/Wallis': 'Pacific/Wallis and Futuna 🇼🇫',
+                    'Pacific/Apia': 'Pacific/Apia 🇼🇸 Samoa',
+                    'Asia/Aden': 'Asia/Aden 🇾🇪 Yemen',
+                    'Indian/Mayotte': 'Indian/Mayotte 🇾🇹',
+                    'Africa/Johannesburg': 'Africa/Johannesburg 🇿🇦 South Africa',
+                    'Africa/Lusaka': 'Africa/Lusaka 🇿🇲 Zambia',
+                    'Africa/Harare': 'Africa/Harare 🇿🇼 Zimbabwe',
+                }
+                timezone = timezone_map.get(timezone, timezone)
+                try:
+                    kategori = "«⋆👺⋆» NO CHANNELS «⋆👺⋆»"
+                    res = ses.get(channel_link, headers=HEADERd, timeout=3, verify=False)
+                    kate = ""
+                    content_channel = str(res.text)
+                    for i in content_channel.split('category_name":"'):
+                        kate = kate + " «🔘» " + str((i.split('"')[0]).encode('utf-8').decode("unicode-escape")).replace(
+                            r'\/', '/')
+                        # kate = kate.replace("||  «⋆🔘⋆»", "|| «⋆🔘⋆»")
+                        kate = kate.upper()
+                    kategori = kate
+                    kategori = kategori.replace("[{", "")
+                    kategori = kategori.replace("«⭐️»«⭐️»", "")
+                    kategori = kategori.replace("★●•", "")
+                    kategori = kategori.replace("●•★", "")
+
+                    vkategori = "«⋆🤴⋆» NO VODS «⋆🤴⋆»"
+                    res = ses.get(vod_link, headers=HEADERd, timeout=3, verify=False)
+                    vkate = ""
+                    content_channel = str(res.text)
+                    for i in content_channel.split('category_name":"'):
+                        vkate = vkate + " «🤴» " + str(
+                            (i.split('"')[0]).encode('utf-8').decode("unicode-escape")).replace(r'\/', '/')
+                        # kate = kate.replace("||  «⋆🔘⋆»", "|| «⋆🔘⋆»")
+                        vkate = vkate.upper()
+                    vkategori = vkate
+                    vkategori = vkategori.replace("[{", "")
+                    vkategori = vkategori.replace("«⭐️»«⭐️»", "")
+                    vkategori = vkategori.replace("★●•", "")
+                    vkategori = vkategori.replace("●•★", "")
+
+                    skategori = "«⋆🕊️⋆» NO SERIES «⋆🕊️⋆»"
+                    res = ses.get(series_link, headers=HEADERd, timeout=3, verify=False)
+                    skate = ""
+                    content_channel = str(res.text)
+                    for i in content_channel.split('category_name":"'):
+                        skate = skate + " «🕊️» " + str(
+                            (i.split('"')[0]).encode('utf-8').decode("unicode-escape")).replace(r'\/', '/')
+                        # kate = kate.replace("||  «⋆🔘⋆»", "|| «⋆🔘⋆»")
+                        skate = skate.upper()
+                    skategori = skate
+                    skategori = skategori.replace("[{", "")
+                    skategori = skategori.replace("«⭐️»«⭐️»", "")
+                    skategori = skategori.replace("★●•", "")
+                    skategori = skategori.replace("●•★", "")
+                    try:
+                        live_url = f"{domain_port}/player_api.php?username={user}&password={pas}&action=get_live_streams"
+                        res = ses.get(live_url, timeout=3, verify=False)
+                        cont1 = str(res.text)
+                        live_count = str(cont1.count("stream_id"))
+
+                        film_url = f"{domain_port}/player_api.php?username={user}&password={pas}&action=get_vod_streams"
+                        res = ses.get(film_url, timeout=3, verify=False)
+                        cont1 = str(res.text)
+                        film_count = str(cont1.count("stream_id"))
+
+                        series_url = f"{domain_port}/player_api.php?username={user}&password={pas}&action=get_series"
+                        res = ses.get(series_url, timeout=3, verify=False)
+                        cont1 = str(res.text)
+                        series_count = str(cont1.count("series_id"))
+
+                    except:
+                        pass
+                except:
+                    pass
+                check_url = f"https://ipleak.net/json/{host}"
+                while True:
+                    try:
+                        ses = requests.Session()
+                        res = ses.get(check_url, timeout=15, verify=False)
+                        break
+                    except:
+                        bag1 = 0
+                        bag1 = bag1 + 1
+                        time.sleep(0.5)
+                        if bag1 == 4:
+                            break
+                try:
+                    sname = ""
+                    sip = ""
+                    cont = str(res.text)
+                    if not 'title' in cont:
+                        sip = cont.split('ip": "')[1]
+                        sip = sip.split('"')[0]
+                        sname = cont.split('"isp_name": "')[1]
+                        sname = sname.split('"')[0]
+                        country_name = cont.split('country_name": "')[1]
+                        country_name = str((country_name.split('"')[0]).encode('utf-8').decode("unicode-escape"))
+                        scountry = cont.split('country_code": "')[1]
+                        scountry = scountry.split('"')[0]
+                except:
+                    pass
+
+                channel_list_end = ("""\n
+╭─────── 👺FAWX🤴 ──────── 
+├── ✬M3U✬MAC✬CHECKER✬ ─── 
+├●𝐌𝟑𝐔 ➩ """ + str(playlist_link) + """
+├●𝐇𝐨𝐬𝐭 ➩ """ + str(domain_port) + """
+├●𝐑𝐞𝐚𝐥 ➩ """ + str(realm) + """
+├●𝐡𝐭𝐭𝐩-𝐩𝐨𝐫𝐭 ➩ """ + str(http_port) + """
+├●𝐡𝐭𝐭𝐩𝐬-𝐩𝐨𝐫𝐭 ➩ """ + str(https_port) + """
+├●𝐫𝐭𝐦𝐩-𝐩𝐨𝐫𝐭 ➩ """ + str(rtmp_port) + """
+├●𝐔𝐬𝐞𝐫 ➩ """ + str(user) + """
+├●𝐏𝐚𝐬𝐬 ➩ """ + str(pas) + """
+├●𝐄𝐧𝐝𝐬 ➩ """ + str(bitis) + """
+├●𝐂𝐫𝐞𝐚𝐭𝐞𝐝 ➩ """ + str(created) + """
+├➤𝐌𝐞𝐬𝐬𝐚𝐠𝐞 ➩ """ + str(message) + """
+╰───────────────────────
+╭─── 𝐌𝟑𝐔 𝐏𝐚𝐧𝐞𝐥 𝐀𝐩𝐢/𝐏𝐥𝐚𝐲𝐞𝐫 𝐀𝐩𝐢 ──
+├●𝐀𝐜𝐭𝐂𝐨𝐧 ➩ """ + str(acon) + """
+├●𝐌𝐚𝐱𝐂𝐨𝐧➩ """ + str(mcon) + """
+├●𝐒𝐭𝐚𝐭𝐮𝐬 ➩ """ + str(status) + """
+├●𝐓𝐫𝐢𝐚𝐥 ➩ """ + str(trial) + """
+├●𝐟𝐨𝐫𝐦𝐚𝐭𝐬 ➩ """ + str(output_var) + """
+╰─➤𝐓𝐢𝐦𝐞𝐙𝐨𝐧𝐞 ➩ """ + str(timezone) + """
+╭─── 𝐒𝐞𝐫𝐯𝐞𝐫 𝐈𝐧𝐟𝐨 ───────────
+├●𝐂𝐨𝐮𝐧𝐭𝐫𝐲 ➩ """ + str(country_name) + """ ✮ """ + data_server(str(scountry)) + """
+├●𝐒𝐞𝐫𝐯𝐞𝐫 𝐈𝐏 ➩ """ + str(sip) + """
+├●𝐒𝐞𝐫𝐯𝐞𝐫 𝐍𝐚𝐦𝐞 ➩ """ + str(sname) + """
+╰──────────────────────
+╭─── 𝐌𝐞𝐝𝐢𝐚 𝐈𝐧𝐟𝐨 ────────────
+├●𝐋𝐢𝐯𝐞 ➩ """ + str(live_count) + """
+├●𝐕𝐨𝐝 ➩ """ + str(film_count) + """
+├●𝐒𝐞𝐫𝐢𝐞𝐬 ➩ """ + str(series_count) + """
+╰──────────────────────
+╭─🅻🅸🆅🅴🅻🅸🆂🆃
+╰➢ """ + str(kategori) + """
+╭─●🆅🅾🅳🅻🅸🆂🆃
+╰─➨  """ + str(vkategori) + """
+╭─●🆂🅴🆁🅸🅴🆂🅻🅸🆂🆃
+╰─➨  """ + str(skategori))
+
+                print(str(channel_list_end))
+                file = save_folder + save_file_m3u_result
+                save_result = input('\33[1;92mDo you want to save the result? (y/[n]) ').lower()
+                if save_result == 'y':
+                    with open(file, 'a+', encoding='utf-8') as f:
+                        f.writelines(str(channel_list_end))
+                        print(f'\33[1;92m\n *** data saved ***\nin {save_folder}{save_file_m3u_result}')
+
+                    input('\33[0mpress Enter to continue')
+                else:
+                    print('\33[33mNot saving result.\33[0m')
+                break
+        except:
+            pass
+        else:
+            print("\33[91m Invalid M3U-Link. Please try again.\33[0m")
+            time.sleep(0.5)
+            break
+
+
+
+# Routine Abfrage Inhalte des Hits
+def list(listlink, panel_mac, token, livel):
+    global portal_idx
+    kategori = ""
+    veri = ""
+    bag = 0
+
+    while True:
+        try:
+            ses = requests.Session()
+            res = ses.get(listlink, headers=hea2(panel_mac, token), timeout=20, verify=False)
+            veri = str(res.text)
+            break
+        except:
+            bag = bag + 1
+            time.sleep(0.5)
+            if bag == 4:
+                break
+
+    if veri.count('title":"') > 1:
+        for i in veri.split('title":"'):
+            kanal = ""
+            try:
+                kanal = kanal + str((i.split('"')[0]).encode('utf-8').decode("unicode-escape")).replace('\/', '/')
+                kanal = kanal.replace("{", "")
+                kanal = kanal.replace(" []", "No cᴀᴛᴇɢᴏʀɪᴇs 🕊️")
+            except:
+                pass
+            kategori = kategori + kanal + livel
+
+    list = kategori
+    return list
+
+
+# Routine Abfrage m3u-Link und Daten
+def m3uapi(playerlink, panel_mac, token):
+    global veri, mcounter
+    mt = ""
+    bag = 0
+
+    while True:
+        try:
+            ses = requests.Session()
+            res = ses.get(playerlink, headers=hea2(panel_mac, token), timeout=7, verify=False)
+            veri = str(res.text)
+            break
+        except:
+            time.sleep(0.5)
+            bag = bag + 1
+            if bag == 6:
+                break
+    try:
+
+        if 'active_cons' in veri:
+            acon = veri.split('active_cons":')[1]
+            acon = acon.split(',')[0]
+            acon = acon.replace('"', "")
+
+            mcon = veri.split('max_connections":')[1]
+            mcon = mcon.split(',')[0]
+            mcon = mcon.replace('"', "")
+
+            status = veri.split('status":')[1]
+            status = status.split(',')[0]
+            status = status.replace('"', "")
+
+            timezone = veri.split('timezone":"')[1]
+            timezone = timezone.split('",')[0]
+            timezone = timezone.replace("\/", "/")
+
+            realm = veri.split('url":')[1]
+            realm = realm.split(',')[0]
+            realm = realm.replace('"', "")
+
+            port = veri.split('port":')[1]
+            port = port.split(',')[0]
+            port = port.replace('"', "")
+
+            userm = veri.split('username":')[1]
+            userm = userm.split(',')[0]
+            userm = userm.replace('"', "")
+
+            pasm = veri.split('password":')[1]
+            pasm = pasm.split(',')[0]
+            pasm = pasm.replace('"', "")
+
+            bitism = veri.split('exp_date":')[1]
+            bitism = bitism.split(',')[0]
+            bitism = bitism.replace('"', "")
+
+            message = veri.split('message":"')[1].split(',')[0].replace('"', '')
+
+            if bitism == "null":
+                bitism = "Unlimited"
+            else:
+                bitism = (datetime.datetime.fromtimestamp(int(bitism)).strftime('%d-%m-%Y %H:%M:%S'))
+
+            mt = ("""
+├● Message ➠ """ + str(message) + """ 
+├● Host ➠ http://""" + panel_url + """/c/
+├● Real ➠ http://""" + realm + """:""" + port + """/c/
+├● Port ➠ """ + port + """
+├● User ➠ """ + userm + """
+├● Pass ➠ """ + pasm + """
+├● Exp ➠ """ + bitism + """ 
+├● Act Con ➠ """ + acon + """
+├● Max Con ➠ """ + mcon + """ 
+├● Status ➠ """ + status + """
+├● TimeZone ➠ """ + timezone + """ """)
+    except:
+        pass
+    return mt
+
+
+# Routine prüfen m3u-Link
+def is_valid_url(m3u_url):
+    try:
+        response = requests.get(m3u_url, allow_redirects=False)
+        return response.status_code == 200
+    except requests.exceptions.RequestException:
+        return False
+
+
+liveurl: str = ""
+vodurl: str = ""
+seriesurl: str = ""
+token: str = ""
+cid: str = ""
+m3ulink: str = ""
+city1: str = ""
+scount1: str = ""
+scode1: str = ""
+sip1: str = ""
+flag1: str = ""
+
+
+def mac_check():
+    global panel_mac, veri, bag, liveurl, vodurl, seriesurl, panel_url, token, portal_idx, cid, m3ulink, panel_input_mac, res, sip, sname, country_name, scountry, live_count, film_count, series_count, ses, ip
+    from urllib.parse import urlparse
+    from urllib.parse import urlsplit
+    import re
+    random: str = ""
+    panel_map = {
+        "1": "portal.php",
+        "2": "server/load.php",
+        "3": "stalker_portal/server/load.php",
+        "4": "c/portal.php",
+        "5": "c/server/load.php",
+        "6": "cp/server/load.php",
+        "7": "portalstb/portal.php",
+    }
+    print(intro)
+    while True:
+        print('Example with or without http://:\nhttp://mol-2.com:8080 or mol-2.com:8080')
+        panel_url = input('\33[1;92m Input Panel-Url: \33[1;92m') or "nightmare-tv.xyz:8080"
+        if not panel_url.startswith("http://"):
+            panel_url = "http://" + panel_url
+        parsed_url = urlparse(panel_url)
+        domain = parsed_url.hostname
+        port = parsed_url.port
+        if port is None:
+            port = "80"
+        panel_url = f'{domain}:{port}'
+        print('\33[33mPanel Host: \33[0m' + panel_url)
+        while True:
+            selection_list = ["\33[1;92m{} - \33[0m{}".format(index, value) for index, (key, value) in
+                              enumerate(panel_map.items(), 1)]
+            for item in selection_list:
+                print('\33[33m' + item)
+            try:
+                # Get user input
+                user_input = int(input("\n\33[1;92m Input Panel-Typ [Default 1]: \33[1;92m") or "1")
+                # Check if the input is valid
+                if user_input in range(1, len(panel_map) + 1):
+                    # Get the panel type from the panel_map dictionary
+                    portal_idx = panel_map[str(user_input)]
+                    print('\33[33mPanel Types: \33[0m' + portal_idx)
+                    break
+                else:
+                    print("\33[91mInvalid input. Please enter a number between 1 and {}.\33[0m".format(len(panel_map)))
+            except:
+                pass
+            else:
+                input(
+                    f"\33[91mthe panel type does not exist in the panel_map.\n\33[0m    press Enter to continue...\33[0m")
+
+        while True:
+            panel_input_mac = input('\33[1;92m Input MAC-Address: \33[1;92m') or '00:1B:79:1c:1e:65'
+            try:
+                if is_valid_mac_address(panel_input_mac):
+                    print('\n\33[33m MAC-Address is \33[0m' + str(is_valid_mac_address(panel_input_mac)))
+                    panel_mac = panel_input_mac
+                    #panel_mac = panel_input_mac.upper().replace(':', '%3A')
+                    break
+            except:
+                print( '\33[91m\nMac Address not correct, please try again...\n\33[0m' )
+                pass
+            #else:
+                #print('\33[91m\nMac Address not correct, please try again...\n\33[0m')
+
+        print('\n\33[33msearch information ...\33[0m')
+        # URLs für Portal-Abfrage
+        url1 = "http://" + panel_url + "/" + portal_idx + "?type=stb&action=handshake&prehash=false&JsHttpRequest=1-xml"
+        url2 = "http://" + panel_url + "/" + portal_idx + "?type=stb&action=get_profile&JsHttpRequest=1-xml"
+        url3 = "http://" + panel_url + "/" + portal_idx + "?type=account_info&action=get_main_info&JsHttpRequest=1-xml"
+        url5 = "http://" + panel_url + "/" + portal_idx + "?action=create_link&type=itv&cmd=ffmpeg%20http://localhost/ch/94067_&JsHttpRequest=1-xml"
+        url6 = "http://" + panel_url + "/" + portal_idx + "?type=itv&action=get_all_channels&force_ch_link_check=&JsHttpRequest=1-xml"
+        url7 = "http://" + panel_url + "/" + portal_idx + "?type=itv&action=get_ordered_list&force_ch_link_check=&fav=0&sortby=number&hd=0&p=1&JsHttpRequest=1-xml"
+        url8 = "http://" + panel_url + "/" + portal_idx + "?type=vod&action=get_ordered_list&force_ch_link_check=&fav=0&sortby=number&hd=0&p=1&JsHttpRequest=1-xml"
+        url9 = "http://" + panel_url + "/" + portal_idx + "?type=series&action=get_ordered_list&force_ch_link_check=&fav=0&sortby=number&hd=0&p=1&JsHttpRequest=1-xml"
+        liveurl = "http://" + panel_url + "/" + portal_idx + "?type=itv&action=get_genres&JsHttpRequest=1-xml"
+        vodurl = "http://" + panel_url + "/" + portal_idx + "?action=get_categories&type=vod&JsHttpRequest=1-xml"
+        seriesurl = "http://" + panel_url + "/" + portal_idx + "?action=get_categories&type=series&JsHttpRequest=1-xml"
+        bag = 0
+        token = ""
+
+        while True:
+            try:
+                print(f'\33[33mConnection try [' + str(bag +1) + ']\33[0m')
+                print('[' + url1[0:35] + '...]')
+                res = ses.get(url1, headers=hea1(panel_mac), timeout=30, verify=False)
+                veri = str(res.text)
+                print(veri)
+            except:
+                bag = bag + 1
+                time.sleep(0.5)
+                if bag == 4:
+                    print(f'\n   \33[1;41m*** MAC address does not match ***   \33[0m')
+                    time.sleep(1)
+                    break
+            print(f'\33[33mConnection successful...\33[0m')
+
+            #token = veri.replace( '{"js":{"token":"', "" )
+            token = veri.split( "token" + '":"' )[1]
+            token = token.split( '"' )[0]
+            token = token.replace( '"', '' )
+            if 'random' in veri:
+                random = veri.split("random" + '":"' )[1]
+                random = random.split( '"' )[0]
+                random = random.replace('"','')
+
+            if token == "":
+                print( f'\n   \33[1;41m*** MAC address does not match ***   \33[0m' )
+                time.sleep( 1 )
+                break
+            bag = 0
+            while True:
+                if portal_idx == "stalker_portal/server/load.php":
+                    times = time.time()
+                    SN = (hashlib.md5( panel_input_mac.encode( 'utf-8' ) ).hexdigest())
+                    SNENC = SN.upper()
+                    SNCUT = SNENC[:13]
+                    DEV = hashlib.sha256( panel_input_mac.encode( 'utf-8' ) ).hexdigest()
+                    DEVENC = DEV.upper()
+                    SG = "".join([SNCUT, panel_input_mac])
+                    SING = (hashlib.sha256( SG.encode( 'utf-8' ) ).hexdigest())
+                    SINGENC = SING.upper()
+                    macs = panel_mac.upper()
+                    macs = urllib.parse.quote( panel_mac )
+                    url2 = "http://" + panel_url + "/" + portal_idx + '?type=stb&action=get_profile&hd=1&ver=ImageDescription:%200.2.18-r22-pub-270;%20ImageDate:%20Tue%20Dec%2019%2011:33:53%20EET%202017;%20PORTAL%20version:%205.6.6;%20API%20Version:%20JS%20API%20version:%20328;%20STB%20API%20version:%20134;%20Player%20Engine%20version:%200x566&num_banks=2&sn=' + SNCUT + '&stb_type=MAG270&client_type=STB&image_version=0.2.18&video_out=hdmi&device_id=' + DEVENC + '&device_id2=' + DEVENC + '&signature=OaRqL9kBdR5qnMXL+h6b+i8yeRs9/xWXeKPXpI48VVE=&auth_second_step=1&hw_version=1.7-BD-00&not_valid_token=0&metrics=%7B%22mac%22%3A%22' + macs + '%22%2C%22sn%22%3A%22' + SNCUT + '%22%2C%22model%22%3A%22MAG270%22%2C%22type%22%3A%22STB%22%2C%22uid%22%3A%22BB340DE42B8A3032F84F5CAF137AEBA287CE8D51F44E39527B14B6FC0B81171E%22%2C%22random%22%3A%22' + random + '%22%7D&hw_version_2=85a284d980bbfb74dca9bc370a6ad160e968d350&timestamp=' + str(
+                        times ) + '&api_signature=262&prehash=efd15c16dc497e0839ff5accfdc6ed99c32c4e2a&JsHttpRequest=1-xml'
+                try:
+                    res = ses.get(url2, headers=hea2(panel_mac, token), timeout=10, verify=False)
+                    veri = str(res.text)
+                    break
+                except:
+                    bag = bag + 1
+                    time.sleep(0.5)
+                    if bag == 5:
+                        break
+            id = "null"
+            ip = ""
+            try:
+                json_string = veri
+                id_pattern = r'"id":"(\d+)"'
+                id = re.search(id_pattern, json_string ).group(1)
+                ip_pattern = r'"ip":"([\d\.]+)"'
+                ip = re.search(ip_pattern, json_string ).group(1)
+            except:
+                pass
+            if not id == "null":
+                bag = 0
+                while True:
+                    try:
+                        res = ses.get(url3, headers=hea2(panel_mac, token), timeout=10, verify=False)
+                        veri = ""
+                        veri = str(res.text)
+                        break
+                    except:
+                        bag = bag + 1
+                        time.sleep(1)
+                        if bag == 5:
+                            break
+                if not veri.count('phone') == 0:
+                    trh = ""
+                    if 'end_date' in veri:
+                        trh = veri.split('end_date":"')[1]
+                        trh = trh.split('"')[0]
+                    else:
+                        try:
+                            trh = veri.split('phone":"')[1]
+                            trh = trh.split('"')[0]
+                            if trh.lower()[:2] == 'un':
+                                K_Days = " Days"
+                            else:
+                                K_Days = (str(tarih_clear(trh)) + " Days")
+                                trh = trh + ' ' + K_Days
+                        except:
+                            pass
+                    bag = 0
+                    while True:
+                        try:
+                            #ses = requests.Session()
+                            res = ses.get(url6, headers=hea2(panel_mac, token), timeout=15, verify=False)
+                            veri = str(res.text)
+                            cid = (str(veri).split('ch_id":"')[5].split('"')[0])
+                            if portal_idx == "stalker_portal/server/load.php":
+                                cid = (str(res.text).split('id":"')[5].split('"')[0])
+                            break
+                        except:
+                            bag = bag + 1
+                            time.sleep(1)
+                            if bag == 15:
+                                cid = "94067"
+                                break
+                    real = panel_url
+                    m3ulink = ""
+                    user = ""
+                    pas = ""
+                    p_message = "Invalid Opps"
+                    bag = 0
+                    while True:
+                        try:
+                            url = "http://" + panel_url + "/" + portal_idx + "?type=itv&action=create_link&cmd=ffmpeg%20http://localhost/ch/" + str(
+                                cid) + "_&series=&fforced_storage=undefined&disable_ad=0&download=0&JsHttpRequest=1-xml"
+                            res = ses.get(url, headers=hea2(panel_mac, token), timeout=15, verify=False)
+                            veri = str(res.text)
+                            link = veri.split('ffmpeg ')[1].split('"')[0].replace('\/', '/')
+                            real = 'http://' + link.split('://')[1].split('/')[0] + '/c/'
+                            user = str(link.replace('live/', '').split('/')[3])
+                            pas = str(link.replace('live/', '').split('/')[4])
+                            m3ulink = "http://" + real.replace('http://', '').replace('/c/',
+                                                                                      '') + "/get.php?username=" + str(
+                                user) + "&password=" + str(pas) + "&type=m3u_plus"
+                            if is_valid_url(m3ulink):
+                                m3ulink = m3ulink
+                            else:
+                                m3ulink = "Offline"
+                            p_message = goruntu(link)
+                            break
+                        except:
+                            bag = bag + 1
+                            time.sleep(1)
+                            if bag == 4:
+                                break
+                    playerapi = ""
+                    if not m3ulink == "":
+                        playerlink = str("http://" + real.replace('http://', '').replace('/c/',
+                                                                                         '') + "/player_api.php?username=" + user + "&password=" + pas)
+                        playerapi = m3uapi(playerlink, panel_mac, token)
+                        if playerapi == "":
+                            playerlink = str("http://" + panel_url.replace('http://', '').replace('/c/',
+                                                                                                  '') + "/player_api.php?username=" + user + "&password=" + pas)
+                            playerapi = m3uapi(playerlink, panel_mac, token)
+
+                    SN = (hashlib.md5(panel_input_mac.encode('utf-8')).hexdigest())
+                    SNENC = SN.upper()
+                    SNCUT = SNENC[:13]
+                    DEV = hashlib.sha256(panel_input_mac.encode('utf-8')).hexdigest()
+                    DEVENC = DEV.upper()
+                    SG = "".join([SNCUT, panel_input_mac])
+                    SING = (hashlib.sha256(SG.encode('utf-8')).hexdigest())
+                    SINGENC = SING.upper()
+
+                    if not ip == "":
+                        vpn = vpnip(ip)
+                    else:
+                        vpn = "ɴᴏ ᴄʟɪᴇɴᴛ ɪᴘ ᴀᴅᴅʀᴇꜱꜱ"
+                    livelist = ""
+                    vodlist = ""
+                    serieslist = ""
+                    channel_cat = "2"
+                    if channel_cat == "1" or channel_cat == "2":
+                        listlink = liveurl
+                        if portal_idx == "stalker_portal/server/load.php":
+                            liveurl = "http://" + panel_url + "/" + portal_idx + "?type=itv&action=get_genres&JsHttpRequest=1-xml"
+                            listlink = liveurl
+                        livel = ' «👺» '
+                        livelist = list(listlink, panel_mac, token, livel)
+
+                    if channel_cat == "2":
+                        listlink = vodurl
+                        livel = ' «🤴» '
+                        vodlist = list(listlink, panel_mac, token, livel)
+                        listlink = seriesurl
+                        livel = ' «🕊️» '
+                        serieslist = list(listlink, panel_mac, token, livel)
+                        palma = panel_url
+                        if ":" in palma:
+                            palma = palma.split(':')[0]
+
+                        check_url = f"https://ipleak.net/json/{palma}"
+                        while True:
+                            try:
+                                ses = requests.Session()
+                                res = ses.get(check_url, timeout=15, verify=False)
+                                break
+                            except:
+                                bag1 = 0
+                                bag1 = bag1 + 1
+                                time.sleep(1)
+                                if bag1 == 4:
+                                    break
+                        try:
+                            cont = str(res.text)
+                            if not 'title' in cont:
+                                sip = cont.split('ip": "')[1]
+                                sip = sip.split('"')[0]
+                                sname = cont.split('"isp_name": "')[1]
+                                sname = sname.split('"')[0]
+                                country_name = cont.split('country_name": "')[1]
+                                country_name = str(
+                                    (country_name.split('"')[0]).encode('utf-8').decode("unicode-escape"))
+                                scountry = cont.split('country_code": "')[1]
+                                scountry = scountry.split('"')[0]
+                        except:
+                            pass
+                    bag1 = 0
+                    while True:
+                        try:
+
+                            res = ses.get(url7, headers=hea2(panel_mac, token), timeout=15, verify=False)
+                            veri = str(res.text)
+
+                            live_count = str(veri).split('total_items":')[1].split(',"')[0]
+                            break
+                        except:
+                            pass
+                        bag1 = bag1 + 1
+                        if bag1 == 4:
+                            break
+                    bag2 = 0
+                    while True:
+                        try:
+                            res = ses.get(url8, headers=hea2(panel_mac, token), timeout=15, verify=False)
+                            veri = str(res.text)
+                            film_count = str(veri).split('total_items":')[1].split(',"')[0]
+                            break
+                        except:
+                            pass
+                        bag2 = bag2 + 1
+                        if bag2 == 4:
+                            break
+                    bag3 = 0
+                    while True:
+                        try:
+                            res = ses.get(url9, headers=hea2(panel_mac, token), timeout=15, verify=False)
+                            veri = str(res.text)
+                            series_count = str(veri).split('total_items":')[1].split(',"')[0]
+                            break
+                        except:
+                            pass
+                        bag3 = bag3 + 1
+                        if bag3 == 4:
+                            break
+                        break
+                    hit(panel_input_mac, trh, real, m3ulink, p_message, vpn, livelist, vodlist, serieslist, playerapi, portal_idx, live_count, film_count, series_count,SNENC, SNCUT, DEVENC, SINGENC)
+                    token = ""
+                    panel_input_mac = ""
+                    break
+            else:
+                print(' not Token request ....')
+                time.sleep(1)
+                break
+            print( f'\n   \33[1;41m*** MAC address does not match ***   \33[0m' )
+            time.sleep( 1 )
+            break
+        break
+
+
+while True:
+    if mcounter != 0:
+        print('\33[33mloading again ...\33[0m')
+    mcounter += 1
+    time.sleep(1.5)
+    clear_scr()
+    print(intro)
+    print("\33[0m\nSelect an option:")
+    print("1. Check M3U-Link  ")
+    print("2. Check Host/MAC")
+    print("3. Exit")
+    option = input("Enter your option (1/2/3): ")
+    if option == '1':
+        clear_scr()
+        m3u_check()
+    elif option == '2':
+        clear_scr()
+        mac_check()
+    elif option == '3':
+        print('\n +++ Bye, Bye +++ \n')
+        break
+    else:
+        print("Invalid option. Please try again.")
